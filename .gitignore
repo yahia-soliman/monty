@@ -42,6 +42,7 @@ monty
 *.su
 *.idb
 *.pdb
+test*
 
 # Kernel Module Compile Results
 *.mod*

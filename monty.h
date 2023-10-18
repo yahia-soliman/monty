@@ -1,6 +1,19 @@
 #ifndef __MONTY__
 #define __MONTY__
 
+#include <stdio.h>
+
+/**
+ * struct global_s - the global variables you want
+ * @file: file pointer to close it before any exit
+ * @line: the current line in the file to read  it
+ */
+typedef struct global_s
+{
+	FILE *file;
+	char *line;
+} global_t;
+
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
  * @n: integer

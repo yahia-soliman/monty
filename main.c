@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <string.h>
 
-char *line = NULL;
+global_t G;
 
 /**
  * main - monty python
@@ -17,7 +17,6 @@ int main(int ac, char **av)
 {
 	ssize_t line_num = 1, line_len = 0;
 	size_t n = 128;
-	FILE *file = NULL;
 	stack_t *data_list = NULL;
 
 	if (ac != 2)
@@ -26,23 +25,30 @@ int main(int ac, char **av)
 		exit(EXIT_FAILURE);
 	}
 
-	file = fopen(av[1], "r");
-	if (file == NULL)
+	G.file = fopen(av[1], "r");
+	if (G.file == NULL)
 	{
 		fprintf(stderr, "Error: Can't open file %s\n", av[1]);
 		exit(EXIT_FAILURE);
 	}
 
-	line = malloc(sizeof(char) * n);
+	G.line = malloc(sizeof(char) * n);
+	if (G.line == NULL)
+	{
+		fprintf(stderr, "Error: malloc failed");
+		fclose(G.file);
+		exit(EXIT_FAILURE);
+	}
 	while (line_len != -1)
 	{
-		line_len = getdelim(&line, &n, '\n', file);
-		apply_opcode(&data_list, line_num);
+		line_len = getline(&(G.line), &n, G.file);
+		if (line_len > 0)
+			apply_opcode(&data_list, line_num);
 		line_num++;
 	}
-	free(line);
-	fclose(file);
-	/*free_list(data_list);*/
+	free(G.line);
+	fclose(G.file);
+	free_list(data_list);
 	return (EXIT_SUCCESS);
 }
 
@@ -60,7 +66,7 @@ void apply_opcode(stack_t **list, unsigned int line_num)
 		{"pall", pall_op},
 		{NULL, NULL},
 	};
-	char *word = "push" /*"get_word(1)"*/;
+	char *word = get_word(1);
 
 	if (word == NULL || *word == 0)
 		return;
@@ -69,16 +75,17 @@ void apply_opcode(stack_t **list, unsigned int line_num)
 	{
 		if (strcmp(word, (arr[i]).opcode) == 0)
 		{
-			/*free(word);*/
+			free(word);
 			func = (arr[i]).f;
 			func(list, line_num);
 			return;
 		}
 	}
 	fprintf(stderr, "L%u: unknown instruction %s\n", line_num, word);
-	/*free(word);*/
-	free(line);
-	/*free_list(list);*/
+	free(word);
+	free(G.line);
+	free_list(list);
+	fclose(G.file);
 	exit(EXIT_FAILURE);
 }
 

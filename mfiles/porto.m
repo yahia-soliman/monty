@@ -1,1 +1,7 @@
 push
+
+pall
+
+push
+
+
