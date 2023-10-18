@@ -39,41 +39,44 @@ int skip(char c)
 }
 
 /**
- * get_word - Get a single word in a line
+ * get_word - Get a single word from G.line
  * @n: Word number
- * @line: Line of words
  * Return: That word on sucess NULL if fails
  */
-char *get_word(int n, char *line)
+char *get_word(int n)
 {
-	char *move = line, *word = NULL;
+	char *move = G.line, *word = NULL;
 	int i = 0, len = 0;
 
-	for (; n > 0 && *move != '\0'; move++) /*skip all the spaces and taps*/
+	/*skip all the spaces and taps*/
+	for (; n > 0 && *move != '\0'; move++)
 	{
-		if (!skip(*move) && n--)							   /*if the currnt char is not space or tap*/
-			while (skip(*move) == 0 && *move != '\0' && n > 0) /*skip word*/
+		/*if the currnt char is not space or tap*/
+		if (!skip(*move) && n--) /*skip word*/
+			while (skip(*move) == 0 && *move != '\0' && n > 0)
 				move++;
 	}
 
 	move--;
-	len = _strspn(move, " \t");
+	len = _strspn(move, " \t\n#");
 
 	if (len != 0) /*start malloc if len > 0 */
 		word = malloc(sizeof(char) * (len + 1));
+	if (len != 0 && word == NULL)
+	{
+		fclose(G.file);
+		free(G.line);
+		/*free_list(list);*/
+		fprintf(stderr, "Error: malloc failed\n");
+		exit(EXIT_FAILURE);
+	}
 
-	for (i = 0; i < len; i++) /*start copying the buffer*/
+	/*start copying the buffer*/
+	for (i = 0; i < len; i++)
 		word[i] = move[i];
 
+	if (word)
+		word[i] = '\0';
+
 	return (word);
-}
-
-int main(void)
-{
-	char arr[] = "push 3     anything after the instruction  is ignored   !!";
-	char *word = NULL;
-
-	word = get_word(17, arr);
-	printf("%s\n", word);
-	free(word);
 }

@@ -5,7 +5,7 @@ CFLAGS=-Wall -Werror -Wextra -pedantic -std=gnu89
 all: monty
 
 #make monty
-monty: monty.h main.c
+monty:
 	$(CC) $(CFLAGS) *.c -o monty
 
 #make <n (0-15)>   will test the n task

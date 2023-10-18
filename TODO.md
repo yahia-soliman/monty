@@ -18,7 +18,7 @@ Implement the following opcodes:
 07. div
 08. mul
 09. mod
-10. # comments
+10. '#' comments
 11. pchr
 12. pstr
 13. rotl

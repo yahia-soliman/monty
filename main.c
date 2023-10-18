@@ -17,7 +17,7 @@ int main(int ac, char **av)
 {
 	ssize_t line_num = 1, line_len = 0;
 	size_t n = 128;
-	stack_t *data_list = NULL;
+	stack_t *list = NULL;
 
 	if (ac != 2)
 	{
@@ -32,6 +32,7 @@ int main(int ac, char **av)
 		exit(EXIT_FAILURE);
 	}
 
+	G.is_stack = 1;
 	G.line = malloc(sizeof(char) * n);
 	if (G.line == NULL)
 	{
@@ -43,12 +44,12 @@ int main(int ac, char **av)
 	{
 		line_len = getline(&(G.line), &n, G.file);
 		if (line_len > 0)
-			apply_opcode(&data_list, line_num);
+			apply_opcode(&list, line_num);
 		line_num++;
 	}
 	free(G.line);
 	fclose(G.file);
-	free_list(data_list);
+	free_list(&list);
 	return (EXIT_SUCCESS);
 }
 
@@ -64,14 +65,17 @@ void apply_opcode(stack_t **list, unsigned int line_num)
 	instruction_t arr[] = {
 		{"push", push_op},
 		{"pall", pall_op},
+		{"pint", pint_op},
+		{"swap", swap_op},
+		{"pop", pop_op},
 		{NULL, NULL},
 	};
 	char *word = get_word(1);
 
-	if (word == NULL || *word == 0)
+	if (word == NULL)
 		return;
 
-	for (i = 0; i < 2; i++)
+	for (i = 0; i < 5; i++)
 	{
 		if (strcmp(word, (arr[i]).opcode) == 0)
 		{
@@ -81,36 +85,11 @@ void apply_opcode(stack_t **list, unsigned int line_num)
 			return;
 		}
 	}
+
 	fprintf(stderr, "L%u: unknown instruction %s\n", line_num, word);
 	free(word);
 	free(G.line);
 	free_list(list);
 	fclose(G.file);
 	exit(EXIT_FAILURE);
-}
-
-/**
- * push_op - pushes a new element to the stack
- * @list: doubly linked list with the data
- * @line_num: the current line in the .m file
- */
-void push_op(stack_t **list, unsigned int line_num)
-{
-	if (list)
-		printf("PUSH in line %u\n", line_num);
-	else
-		printf("PUSH CHECK\n");
-}
-
-/**
- * pall_op - prints elements of the stack
- * @list: doubly linked list with the data
- * @line_num: the current line in the .m file
- */
-void pall_op(stack_t **list, unsigned int line_num)
-{
-	if (list)
-		printf("PALL in line %u\n", line_num);
-	else
-		printf("PALL CHECK\n");
 }

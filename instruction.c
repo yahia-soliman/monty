@@ -2,7 +2,8 @@
 #include <stdlib.h>
 
 /**
- * pall_op - Prints all the values on the stack, starting from the top of the stack
+ * pall_op - Prints all the values on the stack
+ *           starting from the top of the stack
  * @list: Head of the stack/queue
  * @line_num: Line number of the instruction
  */
@@ -10,7 +11,7 @@ void pall_op(stack_t **list, unsigned int line_num)
 {
 	stack_t *move = *list;
 
-	for (move = *list; move != NULL; move = move->next)
+	for (move = *list; move != NULL && line_num; move = move->next)
 		printf("%d\n", move->n);
 }
 
@@ -39,6 +40,7 @@ void pint_op(stack_t **list, unsigned int line_num)
 void pop_op(stack_t **list, unsigned int line_num)
 {
 	stack_t *Free = (*list);
+
 	if (*list == NULL)
 	{
 		fprintf(stderr, "L%d: can't pop an empty stack\n", line_num);

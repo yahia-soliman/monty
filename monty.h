@@ -4,14 +4,16 @@
 #include <stdio.h>
 
 /**
- * struct global_s - the global variables you want
+ * struct global_s - I just use one global variable
  * @file: file pointer to close it before any exit
  * @line: the current line in the file to read  it
+ * @is_stack: specifies mode of the data structure
  */
 typedef struct global_s
 {
 	FILE *file;
 	char *line;
+	int is_stack;
 } global_t;
 
 /**
@@ -45,10 +47,13 @@ typedef struct instruction_s
 } instruction_t;
 
 extern global_t G;
+char *get_word(int word_num);
+void free_list(stack_t **list);
 void apply_opcode(stack_t **list, unsigned int line_num);
 void push_op(stack_t **list, unsigned int line_num);
 void pall_op(stack_t **list, unsigned int line_num);
 void pint_op(stack_t **list, unsigned int line_num);
-void pop_op(stack_t **list, unsigned int line_num);
+void  pop_op(stack_t **list, unsigned int line_num);
 void swap_op(stack_t **list, unsigned int line_num);
+
 #endif/*__MONTY__*/
