@@ -44,9 +44,11 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-
+extern global_t G;
 void apply_opcode(stack_t **list, unsigned int line_num);
 void push_op(stack_t **list, unsigned int line_num);
 void pall_op(stack_t **list, unsigned int line_num);
-
+void pint_op(stack_t **list, unsigned int line_num);
+void pop_op(stack_t **list, unsigned int line_num);
+void swap_op(stack_t **list, unsigned int line_num);
 #endif/*__MONTY__*/
