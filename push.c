@@ -13,6 +13,9 @@ int is_not_zero(char *str)
 		return (1);
 	while (*str == '-' || *str == '+')
 		str++;
+	if (*str == 0)
+		return (1);
+
 	while (*str)
 	{
 		if (*str != '0')

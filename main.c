@@ -36,7 +36,7 @@ int main(int ac, char **av)
 	G.line = malloc(sizeof(char) * n);
 	if (G.line == NULL)
 	{
-		fprintf(stderr, "Error: malloc failed");
+		fprintf(stderr, "Error: malloc failed\n");
 		fclose(G.file);
 		exit(EXIT_FAILURE);
 	}

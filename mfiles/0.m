@@ -1,4 +1,4 @@
-   push     1
+   push   - 0
  push    2
    
   push 3   anything after the instruction  is ignored   !!
