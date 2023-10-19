@@ -23,11 +23,7 @@ void pall_op(stack_t **list, unsigned int line_num)
 void pint_op(stack_t **list, unsigned int line_num)
 {
 	if (*list == NULL)
-	{
-		fprintf(stderr, "L%d: can't pint, stack empty\n", line_num);
-		fclose(G.file);
-		exit(EXIT_FAILURE);
-	}
+		syntax_error(3, list, line_num);
 
 	printf("%d\n", (*list)->n);
 }
@@ -42,11 +38,7 @@ void pop_op(stack_t **list, unsigned int line_num)
 	stack_t *Free = (*list);
 
 	if (*list == NULL)
-	{
-		fprintf(stderr, "L%d: can't pop an empty stack\n", line_num);
-		fclose(G.file);
-		exit(EXIT_FAILURE);
-	}
+		syntax_error(4, list, line_num);
 
 	(*list) = Free->next;
 	if (*list != NULL)
@@ -57,18 +49,13 @@ void pop_op(stack_t **list, unsigned int line_num)
  * swap_op - Swaps the top two elements of the stack.
  * @list: Head of the stack/queue
  * @line_num: Line number of the instruction
-*/
+ */
 void swap_op(stack_t **list, unsigned int line_num)
 {
 	int temp;
 
 	if ((*list) == NULL || (*list)->next == NULL)
-	{
-		fprintf(stderr, "L%d: can't swap, stack too short\n", line_num);
-		fclose(G.file);
-		free_list(list);
-		exit(EXIT_FAILURE);
-	}
+		syntax_error(5, list, line_num);
 
 	temp = (*list)->n;
 	(*list)->n = (*list)->next->n;

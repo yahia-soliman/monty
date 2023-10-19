@@ -60,4 +60,5 @@ void sub_op(stack_t **list, unsigned int line_num);
 void mul_op(stack_t **list, unsigned int line_num);
 void div_op(stack_t **list, unsigned int line_num);
 void mod_op(stack_t **list, unsigned int line_num);
+void syntax_error(int idx, stack_t **list, unsigned int line_n);
 #endif/*__MONTY__*/

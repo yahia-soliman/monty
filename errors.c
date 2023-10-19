@@ -52,21 +52,3 @@ void malloc_error(void)
 	fprintf(stderr, "Error: malloc failed\n");
 	exit(EXIT_FAILURE);
 }
-/*
-*all syntax errors
-*char *fmt[] = {
-*	"L%u: unknown instruction ",
-*	"L%u: usage: push integer\n",
-*	"L%u: can't pint, stack empty\n",
-*	"L%u: can't pop an empty stack\n",
-*	"L%u: can't swap, stack too short\n",
-*	"L%u: can't add, stack too short\n",
-*	"L%u: can't sub, stack too short\n",
-*	"L%u: can't div, stack too short\n",
-*	"L%u: division by zero\n",
-*	"L%u: can't mul, stack too short\n",
-*	"L%u: can't mod, stack too short\n",
-*	"L%u: can't pchar, value out of range\n",
-*	"L%u: can't pchar, stack empty\n"
-*};
-*/
