@@ -67,6 +67,9 @@ void   div_op(stack_t **list, unsigned int line_num);
 void   mod_op(stack_t **list, unsigned int line_num);
 void   pop_op(stack_t **list, unsigned int line_num);
 void   nop_op(stack_t **list, unsigned int line_num);
-
+void pchar_op(stack_t **list, unsigned int line_num);
+void  pstr_op(stack_t **list, unsigned int line_num);
+void  rotl_op(stack_t **list, unsigned int line_num);
+void  rotr_op(stack_t **list, unsigned int line_num);
 
 #endif/*__MONTY__*/

@@ -72,6 +72,10 @@ void apply_opcode(stack_t **list, unsigned int line_num)
 		{"nop", nop_op},
 		{"stack", queue_op},
 		{"queue", queue_op},
+		{"pchar", pchar_op},
+		{"pstr", pstr_op},
+		{"rotl", rotl_op},
+		{"rotr", rotr_op},
 		{NULL, NULL},
 	};
 	char *word = get_word(1);
