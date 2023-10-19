@@ -3,29 +3,6 @@
 #include <stdio.h>
 
 /**
- * is_not_zero - checks if str is all 0s
- * @str: the str to check
- * Return: 0 if zero
- */
-int is_not_zero(char *str)
-{
-	if (str == NULL)
-		return (1);
-	while (*str == '-' || *str == '+')
-		str++;
-	if (*str == 0)
-		return (1);
-
-	while (*str)
-	{
-		if (*str != '0')
-			return (1);
-		str++;
-	}
-	return (0);
-}
-
-/**
  * add_node_stack - adds element at top of stack
  * @head: pointer to  first node of the list
  * @n: the number inside the new added  node
@@ -85,6 +62,26 @@ int add_node_queue(stack_t **head, int n)
 }
 
 /**
+ * is_not_zero - checks if str is all 0s
+ * @str: the str to check
+ * Return: 0 if zero
+ */
+int is_not_zero(char *str)
+{
+	if (str == NULL)
+		return (1);
+	if (*str == '-' || *str == '+')
+		str++;
+
+	do {
+		if (*str != '0')
+			return (1);
+		str++;
+	} while (*str);
+	return (0);
+}
+
+/**
  * push_op - pushes a new element to the stack
  * @list: doubly linked list with the data
  * @line_num: the current line in the .m file
@@ -92,8 +89,10 @@ int add_node_queue(stack_t **head, int n)
 void push_op(stack_t **list, unsigned int line_num)
 {
 	char *word = get_word(2);
-	int err, n = atoi(word);
+	int err, n = 0;
 
+	if (word)
+		n = atoi(word);
 	if (is_not_zero(word) && n == 0)
 	{
 		fclose(G.file);

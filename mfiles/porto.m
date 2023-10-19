@@ -1,7 +1,8 @@
-push
+push 2
+push 3#sadfsa
 
-pall
+pall 
 
-push
+push --1234
 
 

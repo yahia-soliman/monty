@@ -2,14 +2,14 @@ CC=gcc
 CFLAGS=-Wall -Werror -Wextra -pedantic -std=gnu89
 
 #make
-all: monty
+all: clean monty
 
 #make monty
 monty:
 	$(CC) $(CFLAGS) *.c -o monty
 
 #make <n (0-15)>   will test the n task
-%: ./mfiles/%.m monty
+%: ./mfiles/%.m
 	cat $<
 	./monty $<
 

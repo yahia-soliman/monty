@@ -43,6 +43,7 @@ monty
 *.idb
 *.pdb
 test*
+vgcore*
 
 # Kernel Module Compile Results
 *.mod*
