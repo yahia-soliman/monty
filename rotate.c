@@ -35,10 +35,11 @@ void rotr_op(stack_t **list, unsigned int line_num)
 		return;
 
 	tos = move->n;
-	do {
+	while (move->next != NULL)
+	{
 		move = move->next;
 		move->prev->n = move->n;
-	} while (move->next);
+	}
 
 	move->n = tos;
 }

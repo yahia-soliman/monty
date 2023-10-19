@@ -10,7 +10,11 @@ void pstr_op(stack_t **list, unsigned int line_num)
 	stack_t *move = *list;
 
 	for (; move != NULL && move->n != 0 && line_num; move = move->next)
+	{
+		if (move->n < 1 || move->n > 127)
+			break;
 		putchar(move->n);
+	}
 	putchar('\n');
 }
 
