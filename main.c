@@ -9,9 +9,9 @@ global_t G;
 
 /**
  * main - monty python
- * @ac: ac
- * @av: av
- * Return: zzero
+ * @ac: give it 1 argument
+ * @av: the argument a .m file
+ * Return: zero if every thing is ok
  */
 int main(int ac, char **av)
 {
@@ -35,11 +35,8 @@ int main(int ac, char **av)
 	G.is_stack = 1;
 	G.line = malloc(sizeof(char) * n);
 	if (G.line == NULL)
-	{
-		fprintf(stderr, "Error: malloc failed\n");
-		fclose(G.file);
-		exit(EXIT_FAILURE);
-	}
+		malloc_error();
+
 	while (line_len != -1)
 	{
 		line_len = getline(&(G.line), &n, G.file);
@@ -72,6 +69,9 @@ void apply_opcode(stack_t **list, unsigned int line_num)
 		{"mul", mul_op},
 		{"div", div_op},
 		{"mod", mod_op},
+		{"nop", nop_op},
+		{"stack", queue_op},
+		{"queue", queue_op},
 		{NULL, NULL},
 	};
 	char *word = get_word(1);
@@ -89,10 +89,8 @@ void apply_opcode(stack_t **list, unsigned int line_num)
 		}
 	}
 
-	fprintf(stderr, "L%u: unknown instruction %s\n", line_num, word);
+	syntax_error(0, list, line_num);
+	fprintf(stderr, "%s\n", word);
 	free(word);
-	free(G.line);
-	free_list(list);
-	fclose(G.file);
 	exit(EXIT_FAILURE);
 }

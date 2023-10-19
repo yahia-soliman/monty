@@ -1,30 +1,6 @@
 #include "monty.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
-
-/**
- * _strspn -  Get length of a prefix substring
- * @s: Source sting
- * @accept: Accept dilmeters
- * Return: length of the substring or 0 if fails
- */
-unsigned int _strspn(char *s, char *accept)
-{
-	unsigned int length = 0;
-	int i, j;
-
-	for (i = 0; s[i] != '\0'; i++)
-	{
-		for (j = 0; accept[j] != '\0'; j++)
-		{
-			if (accept[j] == s[i])
-				return (length);
-		}
-		length++;
-	}
-	return (length);
-}
 
 /**
  * skip - Checks if the char is space or not
@@ -33,9 +9,17 @@ unsigned int _strspn(char *s, char *accept)
  */
 int skip(char c)
 {
-	if (c == ' ' || c == '\t')
-		return (1);
-	return (0);
+	return (c == ' ' || c == '\t');
+}
+
+/**
+ * at_end - Checks if c is the end of the code
+ * @c: The char to check
+ * Return: 1 if match 0 if not
+ */
+int at_end(char c)
+{
+	return (c == '\0' || c == '\n' || c == '#');
 }
 
 /**
@@ -46,37 +30,33 @@ int skip(char c)
 char *get_word(int n)
 {
 	char *move = G.line, *word = NULL;
-	int i = 0, len = 0;
+	int i = 0;
 
-	/*skip all the spaces and taps*/
-	for (; n > 0 && *move != '\0'; move++)
+	/*find the first char of the word and its length*/
+	while (!at_end(*move) && n--)
 	{
-		/*if the currnt char is not space or tap*/
-		if (!skip(*move) && n--) /*skip word*/
-			while (skip(*move) == 0 && *move != '\0' && n > 0)
-				move++;
+		/*first: skip spaces*/
+		while (skip(*move))
+			move++;
+		/*then: find the end of the word*/
+		for (i = 0; !at_end(move[i]) && !skip(move[i]); i++)
+			;
+		/* if this is not the wanted word start again after it */
+		if (n > 0)
+			move += i;
 	}
 
-	move--;
-	len = _strspn(move, " \t\n#");
+	if (i == 0)
+		return (NULL);
 
-	if (len != 0) /*start malloc if len > 0 */
-		word = malloc(sizeof(char) * (len + 1));
-	if (len != 0 && word == NULL)
-	{
-		fclose(G.file);
-		free(G.line);
-		/*free_list(list);*/
-		fprintf(stderr, "Error: malloc failed\n");
-		exit(EXIT_FAILURE);
-	}
+	word = malloc(sizeof(char) * (i + 1));
+	if (word == NULL)
+		malloc_error();
 
 	/*start copying the buffer*/
-	for (i = 0; i < len; i++)
+	word[i] = '\0';
+	while (i--)
 		word[i] = move[i];
-
-	if (word)
-		word[i] = '\0';
 
 	return (word);
 }

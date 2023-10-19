@@ -32,7 +32,7 @@ int add_node_stack(stack_t **head, int n)
 }
 
 /**
- * add_node_queue - adds element at top of stack
+ * add_node_queue - adds element at tip of queue
  * @head: pointer to  first node of the list
  * @n: the number inside the new added  node
  * Return: pointer to the new node  if added
@@ -95,12 +95,8 @@ void push_op(stack_t **list, unsigned int line_num)
 		n = atoi(word);
 	if (is_not_zero(word) && n == 0)
 	{
-		fclose(G.file);
-		free(G.line);
 		free(word);
-		free_list(list);
-		fprintf(stderr, "L%u: usage: push integer\n", line_num);
-		exit(EXIT_FAILURE);
+		syntax_error(1, list, line_num);
 	}
 
 	if (G.is_stack)
@@ -111,10 +107,7 @@ void push_op(stack_t **list, unsigned int line_num)
 	free(word);
 	if (err)
 	{
-		fclose(G.file);
-		free(G.line);
 		free_list(list);
-		fprintf(stderr, "Error: malloc failed\n");
-		exit(EXIT_FAILURE);
+		malloc_error();
 	}
 }
