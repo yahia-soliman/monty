@@ -27,7 +27,7 @@ void sub_op(stack_t **list, unsigned int line_num)
         printf("erro");
     /* Yo yahia handle this error with the messg "L<line_number>: can't sub, stack too short"*/
 
-    (*list)->next->n = ((*list)->n) - ((*list)->next->n);
+    (*list)->next->n = ((*list)->next->n) - ((*list)->n);
     pop_op(list, line_num);
 }
 
@@ -67,7 +67,7 @@ void div_op(stack_t **list, unsigned int line_num)
  * @list: Head of the list
  * @line_num: Line number
  */
-void div_op(stack_t **list, unsigned int line_num)
+void mod_op(stack_t **list, unsigned int line_num)
 {
     if ((*list) == NULL || (*list)->next == NULL || (*list)->n == 0)
         printf("erro");

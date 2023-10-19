@@ -61,13 +61,17 @@ int main(int ac, char **av)
 void apply_opcode(stack_t **list, unsigned int line_num)
 {
 	int i;
-	void (*func)(stack_t **list, unsigned int line_num);
 	instruction_t arr[] = {
 		{"push", push_op},
 		{"pall", pall_op},
 		{"pint", pint_op},
 		{"swap", swap_op},
 		{"pop", pop_op},
+		{"add", add_op},
+		{"sub", sub_op},
+		{"mul", mul_op},
+		{"div", div_op},
+		{"mod", mod_op},
 		{NULL, NULL},
 	};
 	char *word = get_word(1);
@@ -75,13 +79,12 @@ void apply_opcode(stack_t **list, unsigned int line_num)
 	if (word == NULL)
 		return;
 
-	for (i = 0; i < 5; i++)
+	for (i = 0; (arr[i]).opcode != NULL; i++)
 	{
 		if (strcmp(word, (arr[i]).opcode) == 0)
 		{
 			free(word);
-			func = (arr[i]).f;
-			func(list, line_num);
+			(arr[i]).f(list, line_num);
 			return;
 		}
 	}
