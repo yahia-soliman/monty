@@ -70,7 +70,7 @@ void apply_opcode(stack_t **list, unsigned int line_num)
 		{"div", div_op},
 		{"mod", mod_op},
 		{"nop", nop_op},
-		{"stack", queue_op},
+		{"stack", stack_op},
 		{"queue", queue_op},
 		{"pchar", pchar_op},
 		{"pstr", pstr_op},
