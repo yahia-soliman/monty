@@ -91,13 +91,15 @@ int not_number(char *str)
 void push_op(stack_t **list, unsigned int line_num)
 {
 	char *word = get_word(2);
-	int err, n = atoi(word);
+	int err, n;
 
 	if (not_number(word))
 	{
 		free(word);
 		syntax_error(1, list, line_num);
 	}
+	n = atoi(word);
+
 	if (G.is_stack)
 		err = add_node_stack(list, n);
 	else
