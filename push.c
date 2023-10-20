@@ -62,43 +62,42 @@ int add_node_queue(stack_t **head, int n)
 }
 
 /**
- * is_not_zero - checks if str is all 0s
- * @str: the str to check
- * Return: 0 if zero
+ * not_number - checks if atoi failed
+ * @str: string of numbers 0 -> 9
+ * Return: 1 if str not in 0 -> 9
  */
-int is_not_zero(char *str)
+int not_number(char *str)
 {
 	if (str == NULL)
 		return (1);
+
 	if (*str == '-' || *str == '+')
 		str++;
 
 	do {
-		if (*str != '0')
+		if (*str < '0' || *str > '9')
 			return (1);
 		str++;
 	} while (*str);
+
 	return (0);
 }
 
 /**
- * push_op - pushes a new element to the stack
+ * push_op - pushes new element to stack or queue
  * @list: doubly linked list with the data
  * @line_num: the current line in the .m file
  */
 void push_op(stack_t **list, unsigned int line_num)
 {
 	char *word = get_word(2);
-	int err, n = 0;
+	int err, n = atoi(word);
 
-	if (word)
-		n = atoi(word);
-	if (is_not_zero(word) && n == 0)
+	if (not_number(word))
 	{
 		free(word);
 		syntax_error(1, list, line_num);
 	}
-
 	if (G.is_stack)
 		err = add_node_stack(list, n);
 	else
