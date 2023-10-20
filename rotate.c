@@ -28,18 +28,20 @@ void rotl_op(stack_t **list, unsigned int line_num)
  */
 void rotr_op(stack_t **list, unsigned int line_num)
 {
-	stack_t *move = *list;
-	int tos = line_num;
+	stack_t *node = *list;
+	int node_n, prev_n;
 
-	if (move == NULL || move->next == NULL)
+	if (node == NULL || node->next == NULL)
 		return;
 
-	tos = move->n;
-	while (move->next != NULL)
+	node_n = prev_n = node->n;
+	while (node && line_num)
 	{
-		move = move->next;
-		move->prev->n = move->n;
-	}
+		node_n = node->n;
+		node->n = prev_n;
 
-	move->n = tos;
+		node = node->next;
+		prev_n = node_n;
+	}
+	(*list)->n = node_n;
 }
